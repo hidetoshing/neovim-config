@@ -34,7 +34,7 @@ require("packer").startup(function()
       local function extensions(name, prop)
         return function(opt)
           return function()
-            local telescope = require "telescope"
+            local telescope = require("telescope")
             telescope.load_extension(name)
             return telescope.extensions[name][prop](opt or {})
           end
@@ -81,33 +81,37 @@ require("packer").startup(function()
   -- LSP
   use { 'neovim/nvim-lspconfig' }
   use { 'williamboman/mason.nvim',
+    requires = { 'williamboman/mason-lspconfig.nvim' },
     config = function()
       require("mason").setup()
-    end
-  }
-  use { 'williamboman/mason-lspconfig.nvim',
-    config = function()
       require('mason-lspconfig').setup_handlers({ function(server)
         local opt = {
-          capabilities = require("cmp_nvim_lsp").default_capabilities()
+          --capabilities = require("cmp_nvim_lsp").default_capabilities()
         }
         require('lspconfig')[server].setup(opt)
       end })
     end
   }
+
   use { "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
+    requires = { "kyazdani42/nvim-web-devicons" },
     config = function()
       require("trouble").setup {
         -- your configuration comes here
       }
     end
   }
-  use { "hrsh7th/nvim-cmp" }
-  use { "hrsh7th/cmp-nvim-lsp",
+
+  use { "hrsh7th/nvim-cmp",
+    module = { "cmp" },
+    requires = {
+      -- source plugins
+      { "hrsh7th/cmp-buffer", event = { "InsertEnter" } },
+      { "hrsh7th/cmp-nvim-lsp", event = { "InsertEnter" } },
+    },
     config = function()
       local cmp = require("cmp")
-      cmp.setup({
+      cmp.setup {
         snippet = {
           expand = function(args)
             vim.fn["vsnip#anonymous"](args.body)
@@ -128,7 +132,7 @@ require("packer").startup(function()
         experimental = {
           ghost_text = true,
         },
-      })
+      }
     end
   }
 
