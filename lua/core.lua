@@ -11,6 +11,7 @@ opt.foldmethod = "manual"
 opt.incsearch = true -- Shows the match while typing
 
 opt.number = true -- Show line numbers
+opt.signcolumn = "yes"
 
 -- default tab size and indent size
 opt.expandtab = true

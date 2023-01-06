@@ -1,3 +1,4 @@
+
 vim.cmd.packadd "packer.nvim"
 
 -- auto compile packer plugin settings
@@ -17,11 +18,9 @@ require("packer").startup(function()
       { 'nvim-lua/plenary.nvim' },
       -- extentions
       { "nvim-telescope/telescope-ghq.nvim", opt = true },
-      -- { "nvim-telescope/telescope-z.nvim", opt = true },
     },
     wants = {
       "telescope-ghq.nvim",
-      -- ……
     },
     setup = function()
       local function builtin(name)
@@ -35,7 +34,7 @@ require("packer").startup(function()
       local function extensions(name, prop)
         return function(opt)
           return function()
-            local telescope = require "telescope"
+            local telescope = require("telescope")
             telescope.load_extension(name)
             return telescope.extensions[name][prop](opt or {})
           end
@@ -79,13 +78,77 @@ require("packer").startup(function()
     end
   }
 
-  -- for dev
+  -- LSP
   use { 'neovim/nvim-lspconfig' }
-  use { 'williamboman/mason.nvim' }
-  use { 'williamboman/mason-lspconfig.nvim' }
+  use { 'williamboman/mason.nvim',
+    requires = { 'williamboman/mason-lspconfig.nvim' },
+    config = function()
+      require("mason").setup()
+      require('mason-lspconfig').setup_handlers({ function(server)
+        local opt = {
+          --capabilities = require("cmp_nvim_lsp").default_capabilities()
+        }
+        require('lspconfig')[server].setup(opt)
+      end })
+    end
+  }
 
+  use { "folke/trouble.nvim",
+    requires = { "kyazdani42/nvim-web-devicons" },
+    config = function()
+      require("trouble").setup {
+        -- your configuration comes here
+      }
+    end
+  }
+
+  use { "hrsh7th/nvim-cmp",
+    module = { "cmp" },
+    requires = {
+      -- source plugins
+      { "hrsh7th/cmp-buffer", event = { "InsertEnter" } },
+      { "hrsh7th/cmp-nvim-lsp", event = { "InsertEnter" } },
+    },
+    config = function()
+      local cmp = require("cmp")
+      cmp.setup {
+        snippet = {
+          expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+          end,
+        },
+        sources = {
+          { name = "nvim_lsp" },
+          { name = "buffer" },
+          { name = "path" },
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          ['<C-l>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm { select = true },
+        }),
+        experimental = {
+          ghost_text = true,
+        },
+      }
+    end
+  }
+
+  -- treesitter
   use { 'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
+  }
+  use { 'RRethy/nvim-treesitter-endwise',
+    requires = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        endwise = {
+          enable = true,
+        },
+      }
+    end
   }
   use { 'nvim-treesitter/nvim-treesitter-textobjects',
     requires = { "nvim-treesitter/nvim-treesitter" },
@@ -118,13 +181,8 @@ require("packer").startup(function()
       require("nvim-treesitter.configs").setup {
         yati = {
           enable = true,
-          -- Disable by languages, see `Supported languages`
-          disable = {  },
-
-          -- Whether to enable lazy mode (recommend to enable this if bad indent happens frequently)
+          disable = {  }, -- Disable by languages, see `Supported languages`
           default_lazy = true,
-
-          -- Determine the fallback method used when we cannot calculate indent by tree-sitter
           default_fallback = "auto"
         },
         indent = {
@@ -133,7 +191,12 @@ require("packer").startup(function()
       }
     end
   }
-
+  use { 'andymass/vim-matchup',
+    setup = function()
+      -- may set any options here
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end
+  }
   -- filetypes
   use { 'fatih/vim-go',
     opt = true,
