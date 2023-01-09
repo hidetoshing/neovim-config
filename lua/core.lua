@@ -21,5 +21,7 @@ opt.tabstop = 4
 
 opt.title = true -- Allows neovom to send the Terminal details of the current window, instead of just getting 'v'
 
+opt.clipboard:append{ 'unnamedplus' }
+
 -- setup leader key
 vim.g.mapleader = ","
