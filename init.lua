@@ -1,7 +1,6 @@
 -- local modname = ...
 
 require "core"
-
 require 'plugins'
 
 -- vim.pretty_print()

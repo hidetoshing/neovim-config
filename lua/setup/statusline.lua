@@ -1,6 +1,5 @@
 
 
-
 local function setup(use)
   use { 'nvim-lualine/lualine.nvim',
     requires = {

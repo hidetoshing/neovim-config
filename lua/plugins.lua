@@ -14,6 +14,8 @@ require("packer").startup(function(use)
   -- plugins
   require("setup/treesitter").setup(use)
 
+  if vim.g.vscode then return end
+
   require("setup/lsp").setup(use)
   require("setup/completion").setup(use)
 
