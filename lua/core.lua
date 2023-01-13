@@ -12,7 +12,7 @@ opt.incsearch = true -- Shows the match while typing
 
 opt.autowriteall=true
 opt.termguicolors=true
-opt.autochdir=true
+-- opt.autochdir=true
 
 opt.number = true -- Show line numbers
 opt.signcolumn = "yes"
