@@ -191,7 +191,7 @@ local function setup(use)
                 ["H"] = "toggle_hidden",
                 ["/"] = "fuzzy_finder",
                 ["D"] = "fuzzy_finder_directory",
-                ["f"] = "filter_on_submit",
+                --["f"] = "filter_on_submit",
                 ["<c-x>"] = "clear_filter",
                 ["[g"] = "prev_git_modified",
                 ["]g"] = "next_git_modified",
