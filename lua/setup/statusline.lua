@@ -10,7 +10,7 @@ local function setup(use)
 
       require('lualine').setup {
         options = {
-          theme = 'onelight',
+          theme = 'tokyonight',
         },
         sections = {
           lualine_a = {'mode'},
