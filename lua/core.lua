@@ -29,3 +29,4 @@ opt.clipboard:append{ 'unnamedplus' }
 
 -- setup leader key
 vim.g.mapleader = ","
+

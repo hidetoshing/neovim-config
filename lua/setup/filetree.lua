@@ -85,8 +85,8 @@ local function setup(use)
                 renamed   = "",-- this can only be used in the git_status source
                 -- Status type
                 untracked = "",
-                ignored   = "",
-                unstaged  = "",
+                ignored   = "",
+                unstaged  = "",
                 staged    = "",
                 conflict  = "",
               }
